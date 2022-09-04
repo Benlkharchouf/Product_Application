@@ -7,7 +7,9 @@ use App\Http\Controllers\Backend\BrandController;
 use App\Http\Controllers\Backend\CategoryController;
 use App\Http\Controllers\Backend\SubCategoryController;
 use App\Http\Controllers\Backend\ProductController;
+use App\Http\Controllers\Backend\SliderController;
 use App\Http\Controllers\Frontend\IndexController;
+use App\Http\Controllers\Frontend\LanguageController;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 
@@ -29,12 +31,12 @@ Route::group(['prefix'=> 'admin', 'middleware'=>['admin:admin']], function(){
 	Route::post('/login',[AdminController::class, 'store'])->name('admin.login');
 });
 
-
+Route::middleware(['auth:admin'])->group(function(){
 
 
 Route::middleware(['auth:sanctum,admin', 'verified'])->get('/admin/dashboard', function () {
     return view('admin.index');
-})->name('dashboard');
+})->name('dashboard')->middleware('auth:admin');
 
 // Admin All Routes
 Route::get('/admin/logout',[AdminController::class, 'destroy'])->name('admin.logout');
@@ -51,6 +53,7 @@ Route::post('/update/change/password',[AdminProfileController::class, 'AdminUpda
 
 
 
+});  // end Middleware admin
 
 // User ALL Routes
 
@@ -101,7 +104,7 @@ Route::prefix('category')->group(function(){
 
     Route::get('/edit/{id}',[CategoryController::class, 'CategoryEdit'])->name('category.edit');
 
-    Route::post('/update',[CategoryController::class, 'CategoryUpdate'])->name('category.update');
+    Route::post('/update/{id}', [CategoryController::class, 'CategoryUpdate'])->name('category.update');
 
     Route::get('/delete/{id}',[CategoryController::class, 'CategoryDelete'])->name('category.delete');
 
@@ -162,3 +165,33 @@ Route::prefix('category')->group(function(){
 });
 
 
+
+// Admin Slider All Routes
+
+Route::prefix('slider')->group(function(){
+
+    Route::get('/view', [SliderController::class, 'SliderView'])->name('manage-slider');
+
+    Route::post('/store', [SliderController::class, 'SliderStore'])->name('slider.store');
+
+    Route::get('/edit/{id}', [SliderController::class, 'SliderEdit'])->name('slider.edit');
+
+    Route::post('/update', [SliderController::class, 'SliderUpdate'])->name('slider.update');
+
+    Route::get('/delete/{id}', [SliderController::class, 'SliderDelete'])->name('slider.delete');
+
+    Route::get('/inactive/{id}', [SliderController::class, 'SliderInactive'])->name('slider.inactive');
+
+    Route::get('/active/{id}', [SliderController::class, 'SliderActive'])->name('slider.active');
+
+    });
+
+//// Frontend All Routes /////
+/// Multi Language All Routes ////
+
+Route::get('/language/hindi', [LanguageController::class, 'Hindi'])->name('hindi.language');
+
+Route::get('/language/english', [LanguageController::class, 'English'])->name('english.language');
+
+// Frontend Product Details Page url
+Route::get('/product/details/{id}/{slug}', [IndexController::class, 'ProductDetails']);
