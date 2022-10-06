@@ -9,6 +9,7 @@
     "license": "MIT",
     "require": {
         "php": "^7.3|^8.0",
+        "barryvdh/laravel-dompdf": "^2.0",
         "bumbummen99/shoppingcart": "^4.2",
         "fideloper/proxy": "^4.4",
         "fruitcake/laravel-cors": "^2.0",
@@ -19,7 +20,8 @@
         "laravel/sanctum": "^2.6",
         "laravel/tinker": "^2.5",
         "livewire/livewire": "^2.0",
-        "stripe/stripe-php": "^9.5"
+        "stripe/stripe-php": "^9.5",
+        "swiftmailer/swiftmailer": "^6.0"
     },
     "require-dev": {
         "facade/ignition": "^2.5",
