@@ -31,13 +31,23 @@
             @csrf
 
 		<div class="form-group">
-		    <label class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
-		    <input type="email" name="email" id="email" class="form-control unicase-form-control text-input"  >
-		</div>
+            <label class="info-title" for="exampleInputEmail1">User Email <span>*</span></label>
+            <input type="text" id="email" name="email" class="form-control unicase-form-control text-input">
+             @error('email')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+            @enderror
+        </div>
 	  	<div class="form-group">
 		    <label class="info-title" for="exampleInputPassword1">Password <span>*</span></label>
 		    <input type="password" name="password" id="password" class="form-control unicase-form-control text-input" >
-		</div>
+		    @error('password')
+            <span class="invalid-feedback" role="alert">
+                <strong>{{ $message }}</strong>
+            </span>
+            @enderror
+        </div>
 		<div class="radio outer-xs">
 		  	<label>
 		    	<input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">Remember me!
@@ -59,8 +69,8 @@
 
         <div class="form-group">
 		    <label class="info-title" for="exampleInputEmail1">Name <span>*</span></label>
-		    <input type="text" id="name" name="name" class="form-control unicase-form-control text-input" >
-		    @error('name')
+            <input type="text" id="name" name="name" class="form-control unicase-form-control text-input">
+            @error('name')
             <span class="invalid-feedback" role="alert">
                 <strong>{{ $message }}</strong>
             </span>

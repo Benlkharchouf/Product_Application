@@ -1,15 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+@php
+$seo = App\Models\Seo::find(1);
+@endphp
 <head>
 <!-- Meta -->
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-<meta name="description" content="">
+<meta name="description" content="{{ $seo->meta_description }}">
 <meta name="csrf-token" content="{{ csrf_token() }}">
 
-<meta name="author" content="">
-<meta name="keywords" content="MediaCenter, Template, eCommerce">
+<meta name="author" content="{{ $seo->meta_author }}">
+<meta name="keywords" content="{{ $seo->meta_keyword }}">
 <meta name="robots" content="all">
+
+<!-- /// Google Analytics Code // -->
+<script>
+    {{ $seo->google_analytics }}
+</script>
+<!-- /// Google Analytics Code // -->
+
 <title>@yield('title') </title>
 
 <!-- Bootstrap Core CSS -->
@@ -619,8 +629,8 @@ function addToWishList(product_id){
             url: '/user/cart-remove/'+id,
             dataType:'json',
             success:function(data){
-                couponCalculation();
-                cart();
+            couponCalculation();
+            cart();
             miniCart();
             $('#couponField').show();
             $('#coupon_name').val('');
@@ -719,7 +729,7 @@ function addToWishList(product_id){
                 $('#couponField').hide();
                }
 
-               // Start Message
+             // Start Message
                 const Toast = Swal.mixin({
                       toast: true,
                       position: 'top-end',

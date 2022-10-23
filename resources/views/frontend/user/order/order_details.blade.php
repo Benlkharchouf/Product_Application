@@ -158,6 +158,10 @@
                           <label for=""> Price </label>
                         </td>
 
+                        <td class="col-md-1">
+                            <label for=""> Download </label>
+                          </td>
+
                       </tr>
 
 
@@ -192,6 +196,26 @@
                           <label for=""> ${{ $item->price }}  ( $ {{ $item->price * $item->qty}} ) </label>
                         </td>
 
+
+@php
+$file = App\Models\Product::where('id',$item->product_id)->first();
+@endphp
+
+             <td class="col-md-1">
+              @if($order->status == 'pending')
+              <strong>
+ <span class="badge badge-pill badge-success" style="background: #418DB9;"> No File</span>  </strong>
+
+              @elseif($order->status == 'confirm')
+
+<a target="_blank" href="{{ asset('upload/pdf/'.$file->digital_file) }}">
+  <strong>
+ <span class="badge badge-pill badge-success" style="background: #FF0000;"> Download Ready</span>  </strong> </a>
+              @endif
+
+
+                </td>
+
                       </tr>
                       @endforeach
 
@@ -215,13 +239,33 @@
 
               @else
 
+              @php
+              $order = App\Models\Order::where('id',$order->id)->where('return_reason','=',NULL)->first();
+              @endphp
+
+
+              @if($order)
+
+      <form action="{{ route('return.order',$order->id) }}" method="post">
+        @csrf
+
               <div class="form-group">
                 <label for="label"> Order Return Reason:</label>
                 <textarea name="return_reason" id="" class="form-control" cols="30" rows="05">Return Reason</textarea>
 
               </div>
-              @endif
+              <button type="submit" class="btn btn-danger">Order Return</button>
 
+            </form>
+            @else
+
+            <span class="badge badge-pill badge-warning" style="background: red">You Have send return request for this product</span>
+
+            @endif
+
+
+              @endif
+            <br><br>
 		</div> <!-- // end row -->
 
 	</div>
